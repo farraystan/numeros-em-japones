@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Gerador de Páginas HTML</title>
+
+    <style>
+        body {
+            background-color: #1f1f1f;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 0 auto;
+            color: #ddd;
+        }
+
+        .head, .style, .title {
+            text-align: center;
+        }
+
+        .form-container label,
+        .form-container input {
+            margin-bottom: 10px;
+        }
+
+        .form-container input {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #result {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            background-color: #2c2c2c;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .title {
+            color: #ddd;
+        }
+
+        .head, .a {
+            color: #ddd;
+        }
+
+        .texto-central {
+            text-align: center;
+            color: #ddd;
+        }
+
+        .texto-abaixo-central {
+            text-align: center;
+            color: #ddd;
+            margin-top: 10px;
+        }
+
+        .texto-inferior {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Gerador de Páginas HTML</h1>
+    <h3 class="head">HEAD</h3>
+
+    <form class="form-container" id="htmlForm">
+        <label for="title"></label><input type="text" id="title" name="title" value="" placeholder="Title">
+
+        <label for="fileName"></label><input type="text" id="fileName" name="fileName" value="" placeholder="Nome do Arquivo">
+
+        <h3 class="style">STYLE</h3>
+
+        <label for="backgroundColor"></label><input placeholder="Escolha a cor de fundo" type="color" id="backgroundColor" name="backgroundColor" value="#000000">
+
+        <label for="colorCode"></label><input placeholder="Código da Cor" type="text" id="colorCode" name="colorCode" value="#000000" readonly>
+
+        <h3 class="style">BODY</h3>
+
+        <div id="dynamicFields">
+            <label for="bloco1"></label><input placeholder="Bloco 1" type="text" id="bloco1" name="bloco" value="">
+
+            <label for="destino1"></label><input placeholder="Destino 1" type="text" id="destino1" name="destino" value="">
+        </div>
+
+        <h3 class="style">Textos Adicionais</h3>
+        <label for="textoCentro"></label><input placeholder="Texto no centro" type="text" id="textoCentro" name="textoCentro" value="">
+        <label for="textoAbaixoCentro"></label><input placeholder="Texto abaixo do centro" type="text" id="textoAbaixoCentro" name="textoAbaixoCentro" value="">
+        <label for="textoInferior"></label><input placeholder="Texto no canto inferior" type="text" id="textoInferior" name="textoInferior" value="">
+        <button type="button" onclick="addNewDiv()">Adicionar Nova Div</button>
+        <button type="button" onclick="generateHTML()">Gerar HTML</button>
+        <button type="button" onclick="saveFile()">Salvar</button>
+    </form>
+
+    <h2 class="a">Resultado</h2>
+    <iframe id="result"></iframe>
+
+    <script>
+        let generatedHTML = '';
+        let divCount = 1; // Contador de divs geradas
+
+        // Função para adicionar novos campos de bloco e destino
+        function addNewDiv() {
+            divCount++;
+            const dynamicFields = document.getElementById('dynamicFields');
+
+            // Adicionar os novos elementos ao container
+            dynamicFields.appendChild(newBlocoLabel);
+            dynamicFields.appendChild(newBlocoInput);
+            dynamicFields.appendChild(document.createElement('br'));
+            dynamicFields.appendChild(document.createElement('br'));
+            dynamicFields.appendChild(newDestinoLabel);
+            dynamicFields.appendChild(newDestinoInput);
+            dynamicFields.appendChild(document.createElement('br'));
+            dynamicFields.appendChild(document.createElement('br'));
+        }
+
+        // Função para gerar o HTML
+        function generateHTML() {
+            const title = document.getElementById('title').value;
+            const backgroundColor = document.getElementById('backgroundColor').value;
+            const textoCentro = document.getElementById('textoCentro').value;
+            const textoAbaixoCentro = document.getElementById('textoAbaixoCentro').value;
+            const textoInferior = document.getElementById('textoInferior').value;
+
+            let bodyContent = '';
+
+            for (let i = 1; i <= divCount; i++) {
+                const bloco = document.getElementById('bloco' + i).value;
+                const destino = document.getElementById('destino' + i).value;
+                bodyContent += `
+                <div class="bloco" onclick="window.location.href='${destino}'">
+                    ${bloco}
+                </div>`;
+            }
+
+            generatedHTML = `
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    <style>
+        body {
+            background-color: ${backgroundColor};
+            color: #ddd;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        .bloco {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .bloco:hover {
+            background-color: #555;
+        }
+        .texto-central {
+            text-align: center;
+            color: #ddd;
+            font-size: 40px
+        }
+        .texto-abaixo-central {
+            text-align: center;
+            color: #ddd;
+            position: relative;
+            margin-top: -10px;
+            font-size: 30px
+        }
+        .texto-inferior {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ddd;
+            font-size: 20px
+        }
+        /* Estilo para as setas laterais */
+        .seta {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            color: #ddd;
+            cursor: pointer;
+        }
+        .seta-esquerda {
+            left: 10px;
+        }
+        .seta-direita {
+            right: 10px;
+        }
+        .seta:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="texto-central"><h1>${textoCentro}</h1></div>
+    <div class="texto-abaixo-central">${textoAbaixoCentro}</div>
+    <div class="texto-inferior"><h2>${textoInferior}</h2></div>
+
+    <!-- Setas laterais para navegação -->
+    <div class="seta seta-esquerda" onclick="irParaPaginaAnterior()">&#9664;</div>
+    <div class="seta seta-direita" onclick="irParaProximaPagina()">&#9654;</div>
+
+</body>
+</html>`;
+
+            const iframe = document.getElementById('result');
+            iframe.contentDocument.open();
+            iframe.contentDocument.write(generatedHTML);
+            iframe.contentDocument.close();
+        }
+
+        // Função para salvar o arquivo HTML gerado
+        function saveFile() {
+            if (!generatedHTML) {
+                alert('Por favor, gere o HTML primeiro.');
+                return;
+            }
+
+            const fileName = document.getElementById('fileName').value || 'pagina';
+            const blob = new Blob([generatedHTML], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
