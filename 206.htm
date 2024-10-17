@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ddd;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        .bloco {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .bloco:hover {
+            background-color: #555;
+        }
+        .texto-central {
+            text-align: center;
+            color: #ddd;
+            font-size: 40px
+        }
+        .texto-abaixo-central {
+            text-align: center;
+            color: #ddd;
+            position: relative;
+            margin-top: -10px;
+            font-size: 30px
+        }
+        .texto-inferior {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ddd;
+            font-size: 20px
+        }
+        /* Estilo para as setas laterais */
+        .seta {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            color: #ddd;
+            cursor: pointer;
+        }
+        .seta-esquerda {
+            left: 10px;
+        }
+        .seta-direita {
+            right: 10px;
+        }
+        .seta:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="texto-central"><h1>二千六</h1></div>
+    <div class="texto-abaixo-central">にせんろく</div>
+    <div class="texto-inferior"><h2>dois mil e seis</h2></div>
+
+    <!-- Setas laterais para navegação -->
+    <div class="seta seta-esquerda" onclick="irParaPaginaAnterior()">&#9664;</div>
+    <div class="seta seta-direita" onclick="irParaProximaPagina()">&#9654;</div>
+
+</body>
+</html>
